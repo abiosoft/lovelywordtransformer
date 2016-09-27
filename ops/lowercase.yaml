@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: lowercase
+  name: lowercase
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lowercase
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: lowercase
+    spec:
+      containers:
+      - image: micro-lowercase:1.0
+        name: lowercase
+        resources: {}
+status: {}

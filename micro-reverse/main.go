@@ -39,8 +39,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 func reverse(s string) string {
 	str := ""
-	for i := len(s) - 1; i >= 0; i++ {
-		str += s[i : i+1]
+	for i := range s {
+		str = s[i:i+1] + str
 	}
 	return str
 }

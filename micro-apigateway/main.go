@@ -37,7 +37,7 @@ type service struct {
 }
 
 func (s service) endpointURL(word string) string {
-	return s.url + "/" + s.endpoint + "?word=" + url.QueryEscape(word)
+	return "http://" + s.url + "/" + s.endpoint + "?word=" + url.QueryEscape(word)
 }
 
 func init() {
@@ -45,21 +45,22 @@ func init() {
 		port = p
 	}
 	for _, env := range servicesEnv {
-		services[env] = service{
+		name := strings.ToLower(strings.Split(env, "_")[0])
+		services[name] = service{
 			url:      os.Getenv(env),
-			endpoint: strings.ToLower(strings.Split(env, "_")[0]),
+			endpoint: name,
 		}
 	}
 }
 
 func main() {
-	http.HandleFunc("/upper", handleUppercase)
+	http.HandleFunc("/", handle)
 	log.Println("listening on", port)
 	http.ListenAndServe(":"+port, nil)
 }
 
-func handleUppercase(w http.ResponseWriter, r *http.Request) {
-	service, ok := services[r.URL.Path]
+func handle(w http.ResponseWriter, r *http.Request) {
+	service, ok := services[r.URL.Path[1:]]
 	if !ok {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
@@ -67,6 +68,7 @@ func handleUppercase(w http.ResponseWriter, r *http.Request) {
 	status, err := handleService(w, r, service)
 	serviceutil.LogRequest(w, r, status)
 	if err != nil {
+		http.Error(w, http.StatusText(http.StatusServiceUnavailable), status)
 		log.Println("Error:", err)
 	}
 }

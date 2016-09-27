@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: titlecase
+  name: titlecase
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: titlecase
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: titlecase
+    spec:
+      containers:
+      - image: micro-titlecase:1.0
+        name: titlecase
+        resources: {}
+status: {}

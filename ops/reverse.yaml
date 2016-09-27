@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: reverse
+  name: reverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reverse
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: reverse
+    spec:
+      containers:
+      - image: micro-reverse:1.0
+        name: reverse
+        resources: {}
+status: {}

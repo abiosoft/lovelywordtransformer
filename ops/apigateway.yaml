@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: apigateway
+  name: apigateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: apigateway
+    spec:
+      containers:
+      - image: micro-apigateway:1.0
+        name: apigateway
+        resources: {}
+        env:
+        - name: UPPER_CASE_URL
+          value: uppercase-svc
+        - name: LOWER_CASE_URL
+          value: lowercase-svc
+        - name: REVERSE_URL
+          value: reverse-svc
+        - name: TITLE_CASE_URL
+          value: titlecase-svc
+status: {}
