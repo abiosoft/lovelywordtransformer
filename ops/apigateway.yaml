@@ -5,7 +5,7 @@ metadata:
     app: apigateway
   name: apigateway
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: apigateway
